@@ -1,0 +1,53 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>form-input Demo</title>
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.purple-deep_purple.min.css" /> 
+    <style>/*! HTML5 Boilerplate v5.0 | MIT License | http://h5bp.com/ */.visuallyhidden,hr{border:0;height:1px}.hidden,.invisible{visibility:hidden}html{color:#222;font-size:1em;line-height:1.4}::-moz-selection{background:#b3d4fc;text-shadow:none}::selection{background:#b3d4fc;text-shadow:none}hr{display:block;border-top:1px solid #ccc;margin:1em 0;padding:0}audio,canvas,iframe,img,svg,video{vertical-align:middle}fieldset{border:0;margin:0;padding:0}textarea{resize:vertical}.browserupgrade{margin:.2em 0;background:#ccc;color:#000;padding:.2em 0}.hidden{display:none!important}.visuallyhidden{clip:rect(0 0 0 0);margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.visuallyhidden.focusable:active,.visuallyhidden.focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto}.clearfix:after,.clearfix:before{content:" ";display:table}.clearfix:after{clear:both}@media print{blockquote,img,pre,tr{page-break-inside:avoid}*,:after,:before{background:0 0!important;color:#000!important;box-shadow:none!important;text-shadow:none!important}a,a:visited{text-decoration:underline}a[href]:after{content:" (" attr(href) ")"}abbr[title]:after{content:" (" attr(title) ")"}a[href^="#"]:after,a[href^="javascript:"]:after{content:""}blockquote,pre{border:1px solid #999}thead{display:table-header-group}img{max-width:100%!important}h2,h3,p{orphans:3;widows:3}h2,h3{page-break-after:avoid}}.demo-ribbon{width:100%;height:40vh;background-color:#9C27B0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}.demo-main{margin-top:-35vh;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0}.demo-header .mdl-layout__header-row{padding-left:40px}.demo-container{max-width:1600px;width:calc(100% - 16px);margin:0 auto}.demo-content{border-radius:2px;padding:80px 56px;margin-bottom:80px}.demo-layout.is-small-screen .demo-content{padding:40px 28px}.demo-content h3{margin-top:48px}.demo-footer{padding-left:40px}.demo-footer .mdl-mini-footer--link-list a{font-size:13px}</style>
+
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../form-input.html">
+  </head>
+  <body>
+    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+      <div class="demo-ribbon"></div>
+      <main class="demo-main mdl-layout__content">
+        <div class="demo-container mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+            <h3>Provender Distribution Calculator</h3>
+              <h4><small>This is a distribution calculator. <br>The more info you share, the more interesting the insights.</small></h4>
+              <div class="row">
+                <div class="mdl-cell mdl-cell--6-col">
+                  <form action="#" id="driving-stats">
+                    <strong>Where are you coming from and where are you headed?</strong><br>
+                    <form-input info='{"id": "input-home", "label": "Home"}'></form-input>
+                    <form-input info='{"id": "input-destination-1", "label": "Destination 1"}'></form-input>
+                    <form-input info='{"id": "input-destination-2", "label": "Destination 2"}'></form-input>
+                    <form-input info='{"id": "input-destination-3", "label": "Destination 3"}'></form-input>
+                    <form-input info='{"id": "input-destination-4", "label": "Destination 4"}'></form-input>
+                  </form>
+                </div>
+                <div class="mdl-cell mdl-cell--6-col"></div>
+              </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
