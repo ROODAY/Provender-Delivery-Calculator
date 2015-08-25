@@ -43,19 +43,23 @@ $(document).ready(function(){
   map.addEventListener('google-map-ready', function(e) {
     directionsService = new google.maps.DirectionsService();
     setTimeout(function(){
-		$("#loading").css("margin-top", "-100vh");
+    $("#loading").css("margin-top", "-100vh");
     }, 300);
     enableScroll();
   });
 
   function initialize() {
-	  directionsDisplay = new google.maps.DirectionsRenderer();
-	  var chicago = new google.maps.LatLng(41.850033, -87.6500523);
-	  var mapOptions = {
-	    zoom:7,
-	    center: chicago
-	  };
-	  map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
-	  directionsDisplay.setMap(map);
-	}
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+    var mapOptions = {
+      zoom:7,
+      center: chicago
+    };
+    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+    directionsDisplay.setMap(map);
+  }
+
+  $(".mdl-button").click(function(e){
+    e.preventDefault();
+  });
 });

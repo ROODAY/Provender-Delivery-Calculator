@@ -197,7 +197,7 @@ textarea {
     }
 }
 
-.demo-ribbon {
+.ribbon {
   width: 100%;
   height: 40vh;
   background-color: #9C27B0;
@@ -206,42 +206,42 @@ textarea {
           flex-shrink: 0;
 }
 
-.demo-main {
+.main {
   margin-top: -35vh;
   -webkit-flex-shrink: 0;
       -ms-flex-negative: 0;
           flex-shrink: 0;
 }
 
-.demo-header .mdl-layout__header-row {
+.header .mdl-layout__header-row {
   padding-left: 40px;
 }
 
-.demo-container {
+.container {
   max-width: 1600px;
   width: calc(100% - 16px);
   margin: 0 auto;
 }
 
-.demo-content {
+.content {
   border-radius: 2px;
   padding: 80px 56px;
   margin-bottom: 80px;
 }
 
-.demo-layout.is-small-screen .demo-content {
+.layout.is-small-screen .content {
   padding: 40px 28px;
 }
 
-.demo-content h3 {
+.content h3 {
   margin-top: 48px;
 }
 
-.demo-footer {
+.footer {
   padding-left: 40px;
 }
 
-.demo-footer .mdl-mini-footer--link-list a {
+.footer .mdl-mini-footer--link-list a {
   font-size: 13px;
 }
 
@@ -258,7 +258,7 @@ google-map {
   margin: 0;
 }
 
-#add-new-input {
+.mdl-button--fab {
   height: 36px;
   width: 36px;
   min-width: 36px;
