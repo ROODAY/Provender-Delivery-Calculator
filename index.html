@@ -44,157 +44,102 @@
               <div class="content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
                 <h3>Provender Distribution Calculator</h3>
                   <h4><small>This is a distribution calculator. <br>The more info you share, the more interesting the insights.</small></h4>
-                  <iron-pages selected="0" id="pages-container">
-                    <div id="one" class="page">
-                      <div class="mdl-cell mdl-cell--12-col">
-                        <form action="#" id="driving-stats" onsubmit="return false;">
-                          <strong>Where are you coming from and where are you headed?</strong><br>
-                          <div id="driving-stats-inputs-container">
-                            <form-input info='{"label": "Home"}'></form-input>
-                            <form-input info='{"label": "Destination"}'></form-input>
-                          </div>
-                          <button id="add-new-destination" onclick="appendDestination()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                            <i class="material-icons">add</i>
-                          </button>
-                          <div class="mdl-tooltip" for="add-new-destination">
-                            Add another destination
-                          </div>
-                          <script>
-                              var destinationCount = 2;
-                              appendDestination = function() {
-                                $("#driving-stats-inputs-container").append("<form-input info='{\"label\": \"Destination-" + destinationCount + "\"}'></form-input>");
-                                destinationCount += 1;
-                                $("#google-map").css("height", $("#driving-stats").height() + "px");
-                              };
-                              calcTime = function(){
-                                var obj = $("#driving-stats-inputs-container").find("input");
-                                var locations = [];
-                                for (var i = 1; i < obj.length; i++) {
-                                  input = obj[i];
-                                  point = {
-                                    location: $(input).val(),
-                                    stopover: false
-                                  };
-                                  locations.push(point);
-                                }
-                                var req = {
-                                  origin: $(obj[0]).val(),
-                                  destination: $(obj[0]).val(),
-                                  waypoints: locations,
-                                  provideRouteAlternatives: false,
-                                  travelMode: google.maps.TravelMode.DRIVING,
-                                  unitSystem: google.maps.UnitSystem.IMPERIAL
-                                };
-                                metrics = [];
-                                directionsService.route(req, function(res){
-                                  metrics.push(res.routes[0].legs[0].distance);
-                                  metrics.push(res.routes[0].legs[0].duration);
-                                  console.log(metrics);
-                                  $("#driving-stats-calcs>p").html("The trip would cover a distance of <strong>" + metrics[0].text + "les</strong> and would take about <strong>" + metrics[1].text + "</<strong>.");
-                                  document.getElementById("driving-stats-calcs").open();
-                                });
-                              };
-                          </script>
-                        </form>
+                  <!--template is="dom-bind" id="app"-->
+                    <iron-pages selected="0" id="pages-container">
+                      <div id="one" class="page">
+                        <div class="mdl-cell mdl-cell--12-col">
+                          <form action="#" id="driving-stats" onsubmit="return false;">
+                            <strong>Where are you coming from and where are you headed?</strong><br>
+                            <div id="driving-stats-inputs-container">
+                              <form-input info='{"label": "Home"}'></form-input>
+                              <form-input info='{"label": "Destination"}'></form-input>
+                            </div>
+                            <button id="add-new-destination" onclick="appendDestination()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                              <i class="material-icons">add</i>
+                            </button>
+                            <div class="mdl-tooltip" for="add-new-destination">
+                              Add another destination
+                            </div>
+                          </form>
+                        </div>
                       </div>
-                    </div>
-                    <div id="two" class="page">
-                      <div class="mdl-cell mdl-cell--12-col">
-                        <form action="#" id="time-not-farming">
-                          <strong>You're doing more than driving. Break down today's todo list.</strong><br>
-                          <div id="tasks-inputs-container">
-                            <form-input info='{"label": "Total-Drive-Time"}'></form-input>
-                            <form-input info='{"label": "Time-At-Market"}'></form-input>
-                            <form-input info='{"label": "Time-Unloading"}'></form-input>
-                          </div>
-                          <button id="add-new-task" onclick="appendTask()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                            <i class="material-icons">add</i>
-                          </button>
-                          <div class="mdl-tooltip" for="add-new-task">
-                            Add another task
-                          </div>
-                          <script>
-                              var taskCount = 4;
-                              appendTask = function() {
-                                $("#tasks-inputs-container").append("<form-input info='{\"label\": \"Task-" + taskCount + "\"}'></form-input>");
-                                taskCount += 1;
-                              };
-                          </script>
-                        </form>
+                      <div id="two" class="page">
+                        <div class="mdl-cell mdl-cell--12-col">
+                          <form action="#" id="time-not-farming">
+                            <strong>You're doing more than driving. Break down today's todo list.</strong><br>
+                            <div id="tasks-inputs-container">
+                              <form-input info='{"label": "Total-Drive-Time"}'></form-input>
+                              <form-input info='{"label": "Time-At-Market"}'></form-input>
+                              <form-input info='{"label": "Time-Unloading"}'></form-input>
+                            </div>
+                            <button id="add-new-task" onclick="appendTask()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                              <i class="material-icons">add</i>
+                            </button>
+                            <div class="mdl-tooltip" for="add-new-task">
+                              Add another task
+                            </div>
+                          </form>
+                        </div>
                       </div>
-                    </div>
-                    <div id="three" class="page">
-                      <div class="mdl-cell mdl-cell--12-col">
-                        <form action="#" id="labor-costs">
-                          <strong>Who's putting in their time and what're they getting paid?</strong><br>
-                          <div id="labor-inputs-container">
-                            <form-input info='{"label": "Driver"}'></form-input>
-                            <form-input info='{"label": "Packer"}'></form-input>
-                          </div>
-                          <button id="add-new-worker" onclick="appendWorker()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                            <i class="material-icons">add</i>
-                          </button>
-                          <div class="mdl-tooltip" for="add-new-worker">
-                            Add another worker
-                          </div>
-                          <script>
-                              var workerCount = 3;
-                              appendWorker = function() {
-                                $("#labor-inputs-container").append("<form-input info='{\"label\": \"Worker-" + workerCount + "\"}'></form-input>");
-                                workerCount += 1;
-                              };
-                          </script>
-                        </form>
+                      <div id="three" class="page">
+                        <div class="mdl-cell mdl-cell--12-col">
+                          <form action="#" id="labor-costs">
+                            <strong>Who's putting in their time and what're they getting paid?</strong><br>
+                            <div id="labor-inputs-container">
+                              <form-input info='{"label": "Driver"}'></form-input>
+                              <form-input info='{"label": "Packer"}'></form-input>
+                            </div>
+                            <button id="add-new-worker" onclick="appendWorker()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                              <i class="material-icons">add</i>
+                            </button>
+                            <div class="mdl-tooltip" for="add-new-worker">
+                              Add another worker
+                            </div>
+                          </form>
+                        </div>
                       </div>
-                    </div>
-                    <div id="four" class="page">
-                      <div class="mdl-cell mdl-cell--12-col">
-                        <form action="#" id="vehicle-costs">
-                          <strong>What kind of wheels do you have and what does it cost to keep 'em rolling?</strong><br>
-                          <div id="vehicle-inputs-container">
-                            <form-input info='{"label": "Loan-Amount"}'></form-input>
-                            <form-input info='{"label": "Term-of-Loan-in-Years"}'></form-input>
-                            <form-input info='{"label": "Annual-Interest-Rate"}'></form-input>
-                            <form-input info='{"label": "Payments-per-Year"}'></form-input>
-                            <form-input info='{"label": "Insurance-Payment"}'></form-input>
-                            <form-input info='{"label": "Miles-per-Gallon"}'></form-input>
-                          </div>
-                        </form>
+                      <div id="four" class="page">
+                        <div class="mdl-cell mdl-cell--12-col">
+                          <form action="#" id="vehicle-costs">
+                            <strong>What kind of wheels do you have and what does it cost to keep 'em rolling?</strong><br>
+                            <div id="vehicle-inputs-container">
+                              <form-input info='{"label": "Loan-Amount"}'></form-input>
+                              <form-input info='{"label": "Term-of-Loan-in-Years"}'></form-input>
+                              <form-input info='{"label": "Annual-Interest-Rate"}'></form-input>
+                              <form-input info='{"label": "Payments-per-Year"}'></form-input>
+                              <form-input info='{"label": "Insurance-Payment"}'></form-input>
+                              <form-input info='{"label": "Miles-per-Gallon"}'></form-input>
+                            </div>
+                          </form>
+                        </div>
                       </div>
-                    </div>
-                    <div id="five" class="page">
-                      <div class="mdl-cell mdl-cell--12-col">
-                        <form action="#" id="nitty-gritty">
-                          <strong>Now it's time for the nitty gritty. Count up all those $ and ¢.</strong><br>
-                          <div id="expenses-inputs-container">
-                            <form-input info='{"label": "Delivery-Fee"}'></form-input>
-                            <form-input info='{"label": "Parking-Fee"}'></form-input>
-                            <form-input info='{"label": "Goods-Sold"}'></form-input>
-                            <form-input info='{"label": "Profit-Margin"}'></form-input>
-                          </div>
-                          <button id="add-new-expense" onclick="appendExpense()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                            <i class="material-icons">add</i>
-                          </button>
-                          <div class="mdl-tooltip" for="add-new-expense">
-                            Add another expense
-                          </div>
-                          <script>
-                              var expenseCount = 3;
-                              appendExpense = function() {
-                                $("#expenses-inputs-container").append("<form-input info='{\"label\": \"Expense-" + expenseCount + "\"}'></form-input>");
-                                expenseCount += 1;
-                              };
-                          </script>
-                        </form> 
+                      <div id="five" class="page">
+                        <div class="mdl-cell mdl-cell--12-col">
+                          <form action="#" id="nitty-gritty">
+                            <strong>Now it's time for the nitty gritty. Count up all those $ and ¢.</strong><br>
+                            <div id="expenses-inputs-container">
+                              <form-input info='{"label": "Delivery-Fee"}'></form-input>
+                              <form-input info='{"label": "Parking-Fee"}'></form-input>
+                              <form-input info='{"label": "Goods-Sold"}'></form-input>
+                              <form-input info='{"label": "Profit-Margin"}'></form-input>
+                            </div>
+                            <button id="add-new-expense" onclick="appendExpense()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                              <i class="material-icons">add</i>
+                            </button>
+                            <div class="mdl-tooltip" for="add-new-expense">
+                              Add another expense
+                            </div>
+                          </form> 
+                        </div>
                       </div>
-                    </div>
-                    <div id="six" class="page">
-                      <h1>Results</h1>
-                      <div class="mdl-cell mdl-cell--12-col" id="google-map-wrapper">
-                        <google-map latitude="37.77493" longitude="-122.41942" id="google-map"></google-map>
+                      <div id="six" class="page">
+                        <h1>Results</h1>
+                        <div class="mdl-cell mdl-cell--12-col" id="google-map-wrapper">
+                          <google-map latitude="37.77493" longitude="-122.41942" id="google-map"></google-map>
+                        </div>
                       </div>
-                    </div>
-                  </iron-pages>
+                    </iron-pages>
+                  <!--/template-->
                   <paper-button id="prevPage" raised>
                     <iron-icon icon="chevron-left"></iron-icon>
                     Back
