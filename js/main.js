@@ -36,6 +36,8 @@ disableScroll();
 
 $(document).ready(function(){
   var directionsDisplay, directionsService;
+  var pages = $('#pages-container').children();
+  var currentPage = 0;
   $("#google-map").css("height", $("#driving-stats").height() + "px");
   var map = document.querySelector('google-map');
   map.latitude = 37.77493;
@@ -62,4 +64,53 @@ $(document).ready(function(){
   $(".mdl-button").click(function(e){
     e.preventDefault();
   });
+
+  $("#prevPage").click(function(){
+    $(pages[currentPage]).removeClass('iron-selected');
+    if (currentPage - 1 >= 0) {
+      currentPage -= 1;
+    } else {
+      currentPage = pages.length - 1;
+    }
+    $(pages[currentPage]).addClass('iron-selected');
+    if (currentPage === 0) {
+      $("#prevPage").css("display", "none");
+    } else {
+      $("#prevPage").css("display", "inline-block");
+    }
+    if (currentPage === 5) {
+      $("#nextPage>paper-material").html("Restart <iron-icon icon=\"chevron-right\"></iron-icon>");
+      $("#nextPage").addClass("reset");
+    } else {
+      $("#nextPage>paper-material").html("Next <iron-icon icon=\"chevron-right\"></iron-icon>");
+    }
+  });
+  $("#nextPage").click(function(){
+    $(pages[currentPage]).removeClass('iron-selected');
+    if (currentPage + 1 < pages.length) {
+      currentPage += 1;
+    } else {
+      currentPage = 0;
+    }
+    $(pages[currentPage]).addClass('iron-selected');
+    if (currentPage === 0) {
+      $("#prevPage").css("display", "none");
+    } else {
+      $("#prevPage").css("display", "inline-block");
+    }
+    if (currentPage === 5) {
+      $("#nextPage>paper-material").html("Restart <iron-icon icon=\"chevron-right\"></iron-icon>");
+    } else {
+      $("#nextPage>paper-material").html("Next <iron-icon icon=\"chevron-right\"></iron-icon>");
+    }
+  });
+
+  function checkReset() {
+    if (currentPage === 5) {
+      $(".form-input").val("");
+    }
+  }
+
+  Polymer.addEventListener(document.getElementById('nextPage'), 'tap', checkReset);
 });
+

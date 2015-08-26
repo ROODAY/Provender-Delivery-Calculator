@@ -287,3 +287,11 @@ paper-dialog p {
 #loading-bar {
   width: 100vw;
 }
+
+paper-material.content {
+  margin-bottom: 0;
+}
+
+#prevPage {
+  display: none;
+}

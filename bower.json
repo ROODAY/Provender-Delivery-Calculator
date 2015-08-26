@@ -20,6 +20,9 @@
   ],
   "dependencies": {
     "google-map": "GoogleWebComponents/google-map#~1.0.6",
+    "iron-icon": "PolymerElements/iron-icon#~1.0.3",
+    "iron-icons": "PolymerElements/iron-icons#~1.0.3",
+    "iron-pages": "PolymerElements/iron-pages#~1.0.3",
     "paper-button": "PolymerElements/paper-button#~1.0.3",
     "paper-dialog": "PolymerElements/paper-dialog#~1.0.1",
     "paper-input": "PolymerElements/paper-input#~1.0.12",
