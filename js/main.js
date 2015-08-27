@@ -33,13 +33,11 @@ function enableScroll() {
 }
 
 disableScroll();
-
+var directionsDisplay, directionsService, map;
 $(document).ready(function(){
-  var directionsDisplay, directionsService;
   var pages = $('#pages-container').children();
   var currentPage = 0;
-  $("#google-map").css("height", $("#driving-stats").height() + "px");
-  var map = document.querySelector('google-map');
+  map = document.querySelector('google-map');
   map.latitude = 37.77493;
   map.longitude = -122.41942;
   map.addEventListener('google-map-ready', function(e) {
@@ -86,6 +84,7 @@ $(document).ready(function(){
     }
   });
   $("#nextPage").click(function(){
+    google.maps.event.trigger(map, 'resize');
     $(pages[currentPage]).removeClass('iron-selected');
     if (currentPage + 1 < pages.length) {
       currentPage += 1;
@@ -99,6 +98,7 @@ $(document).ready(function(){
       $("#prevPage").css("display", "inline-block");
     }
     if (currentPage === 5) {
+      calcDrivingStats();
       $("#nextPage>paper-material").html("Restart <iron-icon icon=\"chevron-right\"></iron-icon>");
     } else {
       $("#nextPage>paper-material").html("Next <iron-icon icon=\"chevron-right\"></iron-icon>");
@@ -131,12 +131,45 @@ appendTask = function() {
 appendDestination = function() {
   $("#driving-stats-inputs-container").append("<form-input info='{\"label\": \"Destination-" + destinationCount + "\"}'></form-input>");
   destinationCount += 1;
-  $("#google-map").css("height", $("#driving-stats").height() + "px");
 };
 
-runCalculations = function() {
-  calcDrivingStats();
-  calcDepreciation();
+runCalculations = function(metrics) {
+  var calcs =  {
+    drivingStats: metrics,
+    financialMetrics: calcDepreciation(),
+    taskTime: calcTaskTime(),
+    laborCost: calcLaborCosts(calcTaskTime()),
+    fuelCost: Math.round((calcFuelCost(metrics[0].value / 1609.34)) * 100) / 100,
+    misc: calcMisc(calcDepreciation())
+  };
+  var totalTime = (Math.round((calcs.taskTime + (calcs.drivingStats[1].value / 60 / 60)) * 10) / 10);
+  var costOfDistribution = Math.round((calcs.laborCost + calcs.fuelCost + calcs.misc.totalExpenses) * 100) / 100;
+  $("#driving-stats").html("Your trip would cover about <b>" + calcs.drivingStats[0].text + "les</b> and take about <b>" + calcs.drivingStats[1].text + "</b>.");
+  $("#time-spent").html("You would spend a total of <b>" + totalTime + " hours</b>. <b>" + Math.round((calcs.drivingStats[1].value / 60 / 60) * 100) + "%</b> sitting and <b>" + Math.round((calcs.taskTime / totalTime) * 100) + "%</b> standing.");
+  $("#costs").html("It would cost <b>$" + (Math.round(((calcs.laborCost + calcs.fuelCost) * 100)) / 100) + "</b>, <b>$" + (Math.round(calcs.laborCost * 100) / 100) + "</b> on labor and <b>$" + (Math.round(calcs.fuelCost * 100) / 100) + "</b> on fuel.");
+  console.log(calcs);
+};
+
+calcMisc = function(financialMetrics) {
+  var goodsSold = parseInt($("#input-goods-sold").va()),
+      profitMargin = parseInt($("#input-profit-margin").val()) / 100;
+  var margin = Math.round(goodsSold * profitMargin * 100) / 100;
+  var periods = parseInt($("#input-payments-per-year").val());
+  var expenses = $("#expenses-inputs-container").find("input");
+  var totalExpenses = 0;
+  for (var i = 0; i < expenses.length; i++) {
+    totalExpenses += parseInt($(expenses[i]).val());
+  }
+  totalExpenses += financialMetrics.paymentPerPeriod / (365 / periods);
+  totalExpenses += parseInt($("#input-insurance-payment").val()) / 30;
+  totalExpenses = Math.round(totalExpenses * 100) / 100;
+};
+
+calcFuelCost = function(miles) {
+  var mpg = parseInt($("#input-miles-per-gallon").val()),
+      price = parseInt($("#input-average-gas-price").val());
+
+  return (miles / mpg) * price;
 };
 
 calcDepreciation = function() {
@@ -145,12 +178,18 @@ calcDepreciation = function() {
       rate = parseInt($("#input-annual-interest-rate").val()),
       periods = parseInt($("#input-payments-per-year").val());
 
+  var ratePerPeriod = Math.round(((1 + (rate/100)/periods) - 1) * 10000) / 10000,
+      paymentPerPeriod = Math.round(((ratePerPeriod * amount) / (1 - (Math.pow((1 + ratePerPeriod), -1 * periods * term)))) * 100) / 100,
+      numPayments = Math.round(NPER(ratePerPeriod, paymentPerPeriod, -1 * amount)),
+      totalPayment = Math.round((paymentPerPeriod * numPayments) * 100) / 100,
+      totalInterest = Math.round((totalPayment - amount) * 100) / 100;
+
   return  {
-    ratePerPeriod: Math.round(((1 + (rate/100)/periods) - 1) * 10000) / 10000,
-    paymentPerPeriod: Math.round(((ratePerPeriod * amount) / (1 - (Math.pow((1 + ratePerPeriod), -1 * periods * term)))) * 100) / 100,
-    numPayments: Math.round(NPER(ratePerPeriod, paymentPerPeriod, -1 * amount)),
-    totalPayment: Math.round((paymentPerPeriod * numPayments) * 100) / 100,
-    totalInterest: Math.round((totalPayment - amount) * 100) / 100
+    ratePerPeriod: ratePerPeriod,
+    paymentPerPeriod: paymentPerPeriod,
+    numPayments: numPayments,
+    totalPayment: totalPayment,
+    totalInterest: totalInterest
   };
     
 };
@@ -164,8 +203,8 @@ function NPER(rate, payment, present) {
 }
 
 calcTaskTime = function() {
-  tasks = $("#tasks-inputs-container").find("input");
-  totalTime = 0;
+  var tasks = $("#tasks-inputs-container").find("input");
+  var totalTime = 0;
   for (var i = 0; i < tasks.length; i++) {
     totalTime += parseInt($(tasks[i]).val());
   }
@@ -173,8 +212,8 @@ calcTaskTime = function() {
 };
 
 calcLaborCosts = function(hours) {
-  wages = $("#labor-inputs-container").find("input");
-  totalLaborCost = 0;
+  var wages = $("#labor-inputs-container").find("input");
+  var totalLaborCost = 0;
   for (var i = 0; i < wages.length; i++) {
     totalLaborCost += parseInt($(wages[i]).val()) * hours;
   }
@@ -200,10 +239,10 @@ calcDrivingStats = function() {
     travelMode: google.maps.TravelMode.DRIVING,
     unitSystem: google.maps.UnitSystem.IMPERIAL
   };
-  metrics = [];
+  var metrics = [];
   directionsService.route(req, function(res){
     metrics.push(res.routes[0].legs[0].distance);
     metrics.push(res.routes[0].legs[0].duration);
-    console.log(metrics);
+    runCalculations(metrics);
   });
 };

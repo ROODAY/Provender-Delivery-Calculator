@@ -51,44 +51,6 @@ textarea {
     padding: 0.2em 0;
 }
 
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ==========================================================================
-   Media Queries
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-
-}
-
-@media print,
-       (-o-min-device-pixel-ratio: 5/4),
-       (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 120dpi) {
-
-}
-
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
-
 .hidden {
     display: none !important;
     visibility: hidden;
@@ -132,11 +94,6 @@ textarea {
 .clearfix {
     *zoom: 1;
 }
-
-/* ==========================================================================
-   Print styles
-   ========================================================================== */
-
 @media print {
     *,
     *:before,
@@ -200,7 +157,7 @@ textarea {
 .ribbon {
   width: 100%;
   height: 40vh;
-  background-color: #9C27B0;
+  background-color: #2a0338;
   -webkit-flex-shrink: 0;
       -ms-flex-negative: 0;
           flex-shrink: 0;
@@ -246,7 +203,7 @@ textarea {
 }
 
 google-map {
-  height: 2000px;
+  height: 600px;
   margin: 0;
 }
 

@@ -24,7 +24,7 @@ Example:
   <template>
     <paper-input-container>
       <label>{{removeDash(info.label)}}</label>
-      <input is="iron-input" id="{{prefixInput(info.label)}}">
+      <input is="iron-input" id="{{prefixInput(info.label)}}" error="Input Required" required validateImmediately>
     </paper-input-container>
   </template>
 
