@@ -252,3 +252,8 @@ paper-material.content {
 #prevPage {
   display: none;
 }
+
+google-chart {
+  height: 300px;
+  width: 50em;
+}

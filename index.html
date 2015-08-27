@@ -161,9 +161,18 @@
                           <p id="time-spent"></p>
                           <p id="costs"></p>
                           <p id="finances"></p>
+                          <h3 id="break-even"></h3>
+                        </div>
+                        <div class="mdl-cell mdl-cell--12-col" id="google-charts-wrapper">
+                          <google-chart
+                            type='pie'
+                            options='{"title": "Distribution of days in 2001Q1"}'
+                            cols='[{"label":"Month", "type":"string"}, {"label":"Days", "type":"number"}]'
+                            rows='[["Jan", 31],["Feb", 28],["Mar", 31]]'>
+                          </google-chart>
                         </div>
                         <div class="mdl-cell mdl-cell--12-col" id="google-map-wrapper">
-                          <google-map latitude="37.77493" longitude="-122.41942" id="google-map"></google-map>
+                          <google-map id="google-map"></google-map>
                         </div>
                       </div>
                     </iron-pages>

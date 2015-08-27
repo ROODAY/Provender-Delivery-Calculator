@@ -33,31 +33,22 @@ function enableScroll() {
 }
 
 disableScroll();
-var directionsDisplay, directionsService, map;
+var directionsDisplay, directionsService, map, graph;
 $(document).ready(function(){
   var pages = $('#pages-container').children();
   var currentPage = 0;
+  graph = document.querySelector('google-chart');
   map = document.querySelector('google-map');
   map.latitude = 37.77493;
   map.longitude = -122.41942;
   map.addEventListener('google-map-ready', function(e) {
     directionsService = new google.maps.DirectionsService();
-    setTimeout(function(){
-    $("#loading").css("margin-top", "-100vh");
-    }, 300);
-    enableScroll();
-  });
-
-  function initialize() {
     directionsDisplay = new google.maps.DirectionsRenderer();
-    var chicago = new google.maps.LatLng(41.850033, -87.6500523);
-    var mapOptions = {
-      zoom:7,
-      center: chicago
-    };
-    map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
-    directionsDisplay.setMap(map);
-  }
+    enableScroll();
+    setTimeout(function(){
+      $("#loading").css("margin-top", "-100vh");
+    }, 300);
+  });
 
   $(".mdl-button").click(function(e){
     e.preventDefault();
@@ -84,7 +75,6 @@ $(document).ready(function(){
     }
   });
   $("#nextPage").click(function(){
-    google.maps.event.trigger(map, 'resize');
     $(pages[currentPage]).removeClass('iron-selected');
     if (currentPage + 1 < pages.length) {
       currentPage += 1;
@@ -144,14 +134,25 @@ runCalculations = function(metrics) {
   };
   var totalTime = (Math.round((calcs.taskTime + (calcs.drivingStats[1].value / 60 / 60)) * 10) / 10);
   var costOfDistribution = Math.round((calcs.laborCost + calcs.fuelCost + calcs.misc.totalExpenses) * 100) / 100;
+  var breakEven = Math.round((costOfDistribution / (parseInt($("#input-profit-margin").val()) / 100)) * 100) / 100;
   $("#driving-stats").html("Your trip would cover about <b>" + calcs.drivingStats[0].text + "les</b> and take about <b>" + calcs.drivingStats[1].text + "</b>.");
-  $("#time-spent").html("You would spend a total of <b>" + totalTime + " hours</b>. <b>" + Math.round((calcs.drivingStats[1].value / 60 / 60) * 100) + "%</b> sitting and <b>" + Math.round((calcs.taskTime / totalTime) * 100) + "%</b> standing.");
+  var sittingTime = Math.round(((calcs.drivingStats[1].value / 60 / 60) / totalTime) * 100);
+  $("#time-spent").html("You would spend a total of <b>" + totalTime + " hours</b>. <b>" + sittingTime + "%</b> sitting and <b>" + (100 - sittingTime) + "%</b> standing.");
   $("#costs").html("It would cost <b>$" + (Math.round(((calcs.laborCost + calcs.fuelCost) * 100)) / 100) + "</b>, <b>$" + (Math.round(calcs.laborCost * 100) / 100) + "</b> on labor and <b>$" + (Math.round(calcs.fuelCost * 100) / 100) + "</b> on fuel.");
+  $("#break-even").html("You would need to sell <b>$" + breakEven + "</b> to break even.");
+  var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+  var mapOptions = {
+    zoom:7,
+    center: chicago
+  };
+  map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+  directionsDisplay.setMap(map);
+  graph.drawChart();
   console.log(calcs);
 };
 
 calcMisc = function(financialMetrics) {
-  var goodsSold = parseInt($("#input-goods-sold").va()),
+  var goodsSold = parseInt($("#input-goods-sold").val()),
       profitMargin = parseInt($("#input-profit-margin").val()) / 100;
   var margin = Math.round(goodsSold * profitMargin * 100) / 100;
   var periods = parseInt($("#input-payments-per-year").val());
@@ -163,6 +164,10 @@ calcMisc = function(financialMetrics) {
   totalExpenses += financialMetrics.paymentPerPeriod / (365 / periods);
   totalExpenses += parseInt($("#input-insurance-payment").val()) / 30;
   totalExpenses = Math.round(totalExpenses * 100) / 100;
+  return {
+    totalExpenses: totalExpenses,
+    margin: margin
+  };
 };
 
 calcFuelCost = function(miles) {
