@@ -34,6 +34,7 @@
         <link rel="import" href="bower_components/google-chart/google-chart.html">
         <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
         <link rel="import" href="bower_components/paper-button/paper-button.html">
+        <link rel="import" href="bower_components/paper-toast/paper-toast.html">
         <link rel="import" href="bower_components/iron-pages/iron-pages.html">
         <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 
@@ -42,6 +43,16 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
         <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.purple-deep_purple.min.css" /> 
         <link rel="stylesheet" href="css/main.css">
+
+        <style is="custom-style">
+          :root {
+                  /* Label and underline color when the input is focused */
+                  --paper-input-container-focus-color: #2a0338;
+
+                  /* Label and underline color when the input is invalid */
+                  --paper-input-container-invalid-color: #B71C1C;
+          }
+        </style>
 
         <!--[if lt IE 9]>
             <script src="js/vendor/html5-3.6-respond-1.4.2.min.js"></script>
@@ -60,17 +71,17 @@
             <div class="container mdl-grid">
               <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
               <div class="content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+                <img src="img/logo.png" alt="Logo" id="logo-img">
                 <h3>Provender Distribution Calculator</h3>
                   <h4><small>This is a distribution calculator. <br>The more info you share, the more interesting the insights.</small></h4>
-                  <!--template is="dom-bind" id="app"-->
                     <iron-pages selected="0" id="pages-container">
                       <div id="one" class="page">
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="driving-stats-form" onsubmit="return false;">
                             <strong>Where are you coming from and where are you headed?</strong><br>
-                            <div id="driving-stats-inputs-container">
-                              <form-input info='{"label": "Home"}'></form-input>
-                              <form-input info='{"label": "Destination"}'></form-input>
+                            <div id="driving-stats-inputs-container" class="mdl-cell mdl-cell--6-col">
+                              <form-input options='{"label": "Home", "placeholder": "12 Example Street, Boston, MA", "type": "text"}'></form-input>
+                              <form-input options='{"label": "Destination", "placeholder": "42 Example Road, Providence, RI", "type": "text"}'></form-input>
                             </div>
                             <button id="add-new-destination" onclick="appendDestination()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                               <i class="material-icons">add</i>
@@ -85,9 +96,9 @@
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="time-not-farming">
                             <strong>You're doing more than driving. Break down today's todo list.</strong><br>
-                            <div id="tasks-inputs-container">
-                              <form-input info='{"label": "Time-At-Market"}'></form-input>
-                              <form-input info='{"label": "Time-Unloading"}'></form-input>
+                            <div id="tasks-inputs-container" class="mdl-cell mdl-cell--6-col">
+                              <form-input options='{"label": "Time-At-Market", "suffix": "hour(s)", "type": "number", "placeholder": "3"}'></form-input>
+                              <form-input options='{"label": "Time-Unloading", "suffix": "hour(s)", "type": "number", "placeholder": "1"}'></form-input>
                             </div>
                             <button id="add-new-task" onclick="appendTask()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                               <i class="material-icons">add</i>
@@ -102,9 +113,9 @@
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="labor-costs">
                             <strong>Who's putting in their time and what're they getting paid?</strong><br>
-                            <div id="labor-inputs-container">
-                              <form-input info='{"label": "Driver"}'></form-input>
-                              <form-input info='{"label": "Packer"}'></form-input>
+                            <div id="labor-inputs-container" class="mdl-cell mdl-cell--6-col">
+                              <form-input options='{"label": "Driver", "prefix": "$", "placeholder": "10.00", "suffix": "per hour", "type": "number"}'></form-input>
+                              <form-input options='{"label": "Packer", "prefix": "$", "placeholder": "10.00", "suffix": "per hour", "type": "number"}'></form-input>
                             </div>
                             <button id="add-new-worker" onclick="appendWorker()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                               <i class="material-icons">add</i>
@@ -120,13 +131,17 @@
                           <form action="#" id="vehicle-costs">
                             <strong>What kind of wheels do you have and what does it cost to keep 'em rolling?</strong><br>
                             <div id="vehicle-inputs-container">
-                              <form-input info='{"label": "Loan-Amount"}'></form-input>
-                              <form-input info='{"label": "Term-of-Loan-in-Years"}'></form-input>
-                              <form-input info='{"label": "Annual-Interest-Rate"}'></form-input>
-                              <form-input info='{"label": "Payments-per-Year"}'></form-input>
-                              <form-input info='{"label": "Insurance-Payment"}'></form-input>
-                              <form-input info='{"label": "Miles-per-Gallon"}'></form-input>
-                              <form-input info='{"label": "Average-Gas-Price"}'></form-input>
+                              <div class="mdl-cell mdl-cell--6-col inline-block">
+                                <form-input options='{"label": "Loan-Amount", "prefix": "$", "placeholder": "35000", "type": "number"}'></form-input>
+                                <form-input options='{"label": "Term-of-Loan-in-Years", "suffix": "years", "placeholder": "7", "type": "number"}'></form-input>
+                                <form-input options='{"label": "Annual-Interest-Rate", "suffix": "%", "placeholder": "5", "type": "number"}'></form-input>
+                                <form-input options='{"label": "Payments-per-Year", "placeholder": "12", "suffix": "payments", "type": "number"}'></form-input>
+                              </div>
+                              <div class="mdl-cell mdl-cell--6-col inline-block">
+                                <form-input options='{"label": "Insurance-Payment", "prefix": "$", "placeholder": "20.00", "type": "number"}'></form-input>
+                                <form-input options='{"label": "Miles-per-Gallon", "suffix": "mpg", "placeholder": "35", "type": "number"}'></form-input>
+                                <form-input options='{"label": "Average-Gas-Price", "prefix": "$", "placeholder": "3.00", "type": "number"}'></form-input>
+                              </div>
                             </div>
                           </form>
                         </div>
@@ -135,15 +150,15 @@
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="nitty-gritty">
                             <strong>Now it's time for the nitty gritty. Count up all those $ and ¢.</strong><br>
-                            <h5>Profits</h5>
-                            <div id="profits-inputs-container">
-                              <form-input info='{"label": "Goods-Sold"}'></form-input>
-                              <form-input info='{"label": "Profit-Margin"}'></form-input>
+                            <div id="profits-inputs-container" class="mdl-cell mdl-cell--5-col inline-block">
+                              <h5>Profits</h5>
+                              <form-input options='{"label": "Goods-Sold", "prefix": "$", "placeholder": "850.00", "type": "number"}'></form-input>
+                              <form-input options='{"label": "Profit-Margin", "suffix": "%", "placeholder": "45", "type": "number"}'></form-input>
                             </div>
-                            <h5>Expenses</h5>
-                            <div id="expenses-inputs-container">
-                              <form-input info='{"label": "Delivery-Fee"}'></form-input>
-                              <form-input info='{"label": "Parking-Fee"}'></form-input>
+                            <div id="expenses-inputs-container" class="mdl-cell mdl-cell--5-col inline-block">
+                              <h5>Expenses</h5>
+                              <form-input options='{"label": "Delivery-Fee", "prefix": "$", "placeholder": "5.00", "type": "number"}'></form-input>
+                              <form-input options='{"label": "Parking-Fee", "prefix": "$", "placeholder": "5.00", "type": "number"}'></form-input>
                             </div>
                             <button id="add-new-expense" onclick="appendExpense()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                               <i class="material-icons">add</i>
@@ -175,7 +190,6 @@
                         </div>
                       </div>
                     </iron-pages>
-                  <!--/template-->
                   <paper-button id="prevPage" raised>
                     <iron-icon icon="chevron-left"></iron-icon>
                     Back
@@ -185,6 +199,9 @@
                   </paper-button>
               </div>
             </div>
+            <paper-toast id="error-toast" text="Failed to get directions!" duration="10000">
+              <span class="hidden retry" role="button" tabindex="0" style="color: #eeff41;margin: 10px" onclick="calcDrivingStats()">Retry</span>
+            </paper-toast>
             <footer class="footer mdl-mini-footer">
               <div class="mdl-mini-footer--left-section">
                 <ul class="mdl-mini-footer--link-list">

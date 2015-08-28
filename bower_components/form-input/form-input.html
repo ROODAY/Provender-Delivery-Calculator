@@ -22,10 +22,31 @@ Example:
 <dom-module id="form-input">
 
   <template>
-    <paper-input-container>
-      <label>{{removeDash(info.label)}}</label>
-      <input is="iron-input" id="{{prefixInput(info.label)}}" error="Input Required" required validateImmediately>
-    </paper-input-container>
+    <template is="dom-if" if="{{options.placeholder}}">
+      <paper-input-container auto-validate always-float-label error="test">
+        <template is="dom-if" if="{{options.prefix}}">
+          <div prefix>{{options.prefix}}</div>
+        </template>
+        <label>{{removeDash(options.label)}}</label>
+        <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" required placeholder="{{options.placeholder}}">
+        <template is="dom-if" if="{{options.suffix}}">
+          <div suffix>{{options.suffix}}</div>
+        </template>
+      </paper-input-container>
+    </template>
+
+    <template is="dom-if" if="{{!options.placeholder}}">
+      <paper-input-container auto-validate error="test">
+        <template is="dom-if" if="{{options.prefix}}">
+          <div prefix>{{options.prefix}}</div>
+        </template>
+        <label>{{removeDash(options.label)}}</label>
+        <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" required>
+        <template is="dom-if" if="{{options.suffix}}">
+          <div suffix>{{options.suffix}}</div>
+        </template>
+      </paper-input-container>
+    </template>
   </template>
 
 </dom-module>
@@ -44,7 +65,7 @@ Example:
        *
        * @type {{label: string}}
        */
-      info: {
+      options: {
         type: Object,
         // Use `value` to provides a default value for a property, by setting it
         // on your element's prototype.
@@ -57,7 +78,8 @@ Example:
         // prototype).
         value: function() {
           return {
-            label: 'Form Input'
+            label: 'Form Input',
+            type: 'text'
           };
         }
       },

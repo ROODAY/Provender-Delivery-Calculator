@@ -257,3 +257,26 @@ google-chart {
   height: 300px;
   width: 50em;
 }
+
+.mdl-button--fab.mdl-button--colored {
+  background: #2a0338;
+}
+
+#logo-img {
+  margin-top: -60px;
+  margin-left: -40px;
+}
+
+.inline-block {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+}
+
+#add-new-expense {
+  vertical-align: bottom;
+}
+
+#error-toast>span {
+  cursor: pointer;
+}
