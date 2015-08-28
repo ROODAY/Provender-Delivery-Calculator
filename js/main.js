@@ -1,37 +1,3 @@
-var keys = {37: 1, 38: 1, 39: 1, 40: 1, 32: 1, 33: 1, 34: 1, 35: 1, 36: 1};
-
-function preventDefault(e) {
-  e = e || window.event;
-  if (e.preventDefault)
-      e.preventDefault();
-  e.returnValue = false;  
-}
-
-function preventDefaultForScrollKeys(e) {
-    if (keys[e.keyCode]) {
-        preventDefault(e);
-        return false;
-    }
-}
-
-function disableScroll() {
-  if (window.addEventListener) // older FF
-      window.addEventListener('DOMMouseScroll', preventDefault, false);
-  window.onwheel = preventDefault; // modern standard
-  window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
-  window.ontouchmove  = preventDefault; // mobile
-  document.onkeydown  = preventDefaultForScrollKeys;
-}
-
-function enableScroll() {
-    if (window.removeEventListener)
-        window.removeEventListener('DOMMouseScroll', preventDefault, false);
-    window.onmousewheel = document.onmousewheel = null; 
-    window.onwheel = null; 
-    window.ontouchmove = null;  
-    document.onkeydown = null;  
-}
-
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -41,7 +7,6 @@ function reset() {
   pages = $('#pages-container').children();
 }
 
-disableScroll();
 var directionsDisplay, directionsService, map, graph, pages, currentPage, $fields, $emptyFields;
 $(document).ready(function(){
   pages = $('#pages-container').children();
@@ -53,7 +18,6 @@ $(document).ready(function(){
   map.addEventListener('google-map-ready', function(e) {
     directionsService = new google.maps.DirectionsService();
     directionsDisplay = new google.maps.DirectionsRenderer();
-    enableScroll();
     setTimeout(function(){
       $("#loading").css("margin-top", "-100vh");
     }, 300);
@@ -78,9 +42,11 @@ $(document).ready(function(){
     }
     if (currentPage === 5) {
       $("#nextPage>paper-material").html("Restart <iron-icon icon=\"chevron-right\"></iron-icon>");
+      $("#nextPage>paper-material").css("background-color", "#eeff41");
       $("#nextPage").addClass("reset");
     } else {
       $("#nextPage>paper-material").html("Next <iron-icon icon=\"chevron-right\"></iron-icon>");
+      $("#nextPage>paper-material").css("background-color", "#fff");
     }
   });
   $("#nextPage").click(function(){
@@ -116,8 +82,10 @@ $(document).ready(function(){
     if (currentPage === 5) {
       calcDrivingStats();
       $("#nextPage>paper-material").html("Restart <iron-icon icon=\"chevron-right\"></iron-icon>");
+      $("#nextPage>paper-material").css("background-color", "#eeff41");
     } else {
       $("#nextPage>paper-material").html("Next <iron-icon icon=\"chevron-right\"></iron-icon>");
+      $("#nextPage>paper-material").css("background-color", "#fff");
     }
   });
 });
@@ -276,6 +244,7 @@ calcLaborCosts = function(hours) {
 };
 
 calcDrivingStats = function() {
+  $("#loading").css("margin-top", "0");
   var obj = $("#driving-stats-inputs-container").find("input");
   var locations = [];
   for (var i = 1; i < obj.length; i++) {
@@ -298,6 +267,7 @@ calcDrivingStats = function() {
     if (status == google.maps.DirectionsStatus.OK) {
       runCalculations(res);
     } else {
+      $("#loading").css("margin-top", "-100vh");
       $("#error-toast").attr("text", "Failed to get directions! Status: " + status);
       $("#error-toast>span.retry").removeClass("hidden");
       console.error("Google Maps API Status: " + status);

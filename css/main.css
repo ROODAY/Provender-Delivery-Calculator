@@ -281,6 +281,6 @@ google-chart {
   cursor: pointer;
 }
 
-iron-a11y-announcer {
+html /deep/ paper-toast {
   z-index: 99999999;
 }
