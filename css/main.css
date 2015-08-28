@@ -234,7 +234,7 @@ paper-dialog p {
   background-color: rgba(0,0,0,0.5);
   width: 100vw;
   height: 100vh;
-  z-index: 999999999;
+  z-index: 99999;
   position: fixed;
   -webkit-transition: margin-top 0.5s ease;
   -moz-transition: margin-top 0.5s ease;
@@ -279,4 +279,8 @@ google-chart {
 
 #error-toast>span {
   cursor: pointer;
+}
+
+iron-a11y-announcer {
+  z-index: 99999999;
 }

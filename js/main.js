@@ -83,8 +83,8 @@ $(document).ready(function(){
       $("#nextPage>paper-material").html("Next <iron-icon icon=\"chevron-right\"></iron-icon>");
     }
   });
-  $fields = $("form :input .form-input");
   $("#nextPage").click(function(){
+    $fields = $("form input[id^='input']");
     $(pages[currentPage]).removeClass('iron-selected');
     if (currentPage + 1 < pages.length) {
       if ((currentPage + 1) === 5) {
@@ -129,22 +129,22 @@ var destinationCount = 2,
 appendExpense = function() {
   $("#expenses-inputs-container").append("<form-input options='{\"label\": \"Expense-" + expenseCount + "\", \"prefix\": \"$\", \"placeholder\": \"5.00\", \"type\": \"number\"}'></form-input>");
   expenseCount += 1;
-  $fields = $("form :input .form-input");
+  $fields = $("form input[id^='input']");
 };
 appendWorker = function() {
   $("#labor-inputs-container").append("<form-input options='{\"label\": \"Worker-" + workerCount + "\", \"prefix\": \"$\", \"placeholder\": \"10.00\", \"suffix\": \"per hour\", \"type\": \"number\"}'></form-input>");
   workerCount += 1;
-  $fields = $("form :input .form-input");
+  $fields = $("form input[id^='input']");
 };
 appendTask = function() {
   $("#tasks-inputs-container").append("<form-input options='{\"label\": \"Task-" + taskCount + "\", \"suffix\": \"hour(s)\", \"type\": \"number\", \"placeholder\": \"2\"}'></form-input>");
   taskCount += 1;
-  $fields = $("form :input .form-input");
+  $fields = $("form input[id^='input']");
 };
 appendDestination = function() {
   $("#driving-stats-inputs-container").append("<form-input options='{\"label\": \"Destination-" + destinationCount + "\", \"placeholder\": \"Address\", \"type\": \"text\"}'></form-input>");
   destinationCount += 1;
-  $fields = $("form :input .form-input");
+  $fields = $("form input[id^='input']");
 };
 
 runCalculations = function(res) {
