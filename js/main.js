@@ -123,7 +123,10 @@ appendDestination = function() {
   destinationCount += 1;
 };
 
-runCalculations = function(metrics) {
+runCalculations = function(res) {
+  var metrics = [];
+  metrics.push(res.routes[0].legs[0].distance);
+  metrics.push(res.routes[0].legs[0].duration);
   var calcs =  {
     drivingStats: metrics,
     financialMetrics: calcDepreciation(),
@@ -138,17 +141,38 @@ runCalculations = function(metrics) {
   $("#driving-stats").html("Your trip would cover about <b>" + calcs.drivingStats[0].text + "les</b> and take about <b>" + calcs.drivingStats[1].text + "</b>.");
   var sittingTime = Math.round(((calcs.drivingStats[1].value / 60 / 60) / totalTime) * 100);
   $("#time-spent").html("You would spend a total of <b>" + totalTime + " hours</b>. <b>" + sittingTime + "%</b> sitting and <b>" + (100 - sittingTime) + "%</b> standing.");
-  $("#costs").html("It would cost <b>$" + (Math.round(((calcs.laborCost + calcs.fuelCost) * 100)) / 100) + "</b>, <b>$" + (Math.round(calcs.laborCost * 100) / 100) + "</b> on labor and <b>$" + (Math.round(calcs.fuelCost * 100) / 100) + "</b> on fuel.");
+  $("#costs").html("It would cost <b>$" + costOfDistribution + "</b>, <b>$" + (Math.round(calcs.laborCost * 100) / 100) + "</b> on labor, <b>$" + (Math.round(calcs.fuelCost * 100) / 100) + "</b> on fuel, and <b>$" + (Math.round(calcs.misc.totalExpenses * 100) / 100) + "</b> on other expenses.");
   $("#break-even").html("You would need to sell <b>$" + breakEven + "</b> to break even.");
-  var chicago = new google.maps.LatLng(41.850033, -87.6500523);
-  var mapOptions = {
-    zoom:7,
-    center: chicago
-  };
-  map = new google.maps.Map(document.getElementById("google-map"), mapOptions);
+  map = new google.maps.Map(document.getElementById("google-map"));
   directionsDisplay.setMap(map);
+  directionsDisplay.setDirections(res);
+  loadGraph(calcs);
+};
+
+loadGraph = function(calcs) {
+  data = {
+    "cols": [
+          {"id":"","label":"Type","pattern":"","type":"string"},
+          {"id":"","label":"Cost","pattern":"","type":"number"}
+        ],
+    "rows": []
+  };
+  var depreciation = calcs.financialMetrics.paymentPerPeriod / (365 / parseInt($("#input-payments-per-year").val()));
+  var insurance = parseInt($("#input-insurance-payment").val()) / 30;
+  data.rows.push({"c":[{"v":"Labor Cost","f":null},{"v":calcs.laborCost,"f":"$" + calcs.laborCost}]});
+  data.rows.push({"c":[{"v":"Fuel Cost","f":null},{"v":calcs.fuelCost,"f":"$" + calcs.fuelCost}]});
+  data.rows.push({"c":[{"v":"Depreciation","f":null},{"v":depreciation,"f":"$" + depreciation}]});
+  data.rows.push({"c":[{"v":"Insurance","f":null},{"v":insurance,"f":"$" + insurance}]});
+
+  var expenses = $("#expenses-inputs-container").find("input");
+  var labels = $("#expenses-inputs-container").find("label");
+  for (var i = 0; i < expenses.length; i++) {
+    var num = parseInt($(expenses[i]).val());
+    data.rows.push({"c":[{"v":$(labels[i]).text(),"f":null},{"v":num,"f":"$" + num}]});
+  }
+
+  $('#cost-breakdown').attr('data', JSON.stringify(data));
   graph.drawChart();
-  console.log(calcs);
 };
 
 calcMisc = function(financialMetrics) {
@@ -244,10 +268,11 @@ calcDrivingStats = function() {
     travelMode: google.maps.TravelMode.DRIVING,
     unitSystem: google.maps.UnitSystem.IMPERIAL
   };
-  var metrics = [];
-  directionsService.route(req, function(res){
-    metrics.push(res.routes[0].legs[0].distance);
-    metrics.push(res.routes[0].legs[0].duration);
-    runCalculations(metrics);
+  directionsService.route(req, function(res, status){
+    if (status == google.maps.DirectionsStatus.OK) {
+      runCalculations(res);
+    } else {
+      alert ('failed to get directions');
+    }    
   });
 };
