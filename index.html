@@ -83,11 +83,19 @@
                               <form-input options='{"label": "Home", "placeholder": "12 Example Street, Boston, MA", "type": "text"}'></form-input>
                               <form-input options='{"label": "Destination", "placeholder": "42 Example Road, Providence, RI", "type": "text"}'></form-input>
                             </div>
-                            <button id="add-new-destination" onclick="appendDestination()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                              <i class="material-icons">add</i>
-                            </button>
-                            <div class="mdl-tooltip" for="add-new-destination">
-                              Add another destination
+                            <div class="button-container">
+                              <button id="remove-destination" onclick="removeDestination()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored hidden">
+                                <i class="material-icons">close</i>
+                              </button>
+                              <div class="mdl-tooltip" for="remove-destination">
+                                Remove a destination
+                              </div>
+                              <button id="add-new-destination" onclick="appendDestination()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">add</i>
+                              </button>
+                              <div class="mdl-tooltip" for="add-new-destination">
+                                Add another destination
+                              </div>
                             </div>
                           </form>
                         </div>
@@ -100,11 +108,19 @@
                               <form-input options='{"label": "Time-At-Market", "suffix": "hour(s)", "type": "number", "placeholder": "3"}'></form-input>
                               <form-input options='{"label": "Time-Unloading", "suffix": "hour(s)", "type": "number", "placeholder": "1"}'></form-input>
                             </div>
-                            <button id="add-new-task" onclick="appendTask()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                              <i class="material-icons">add</i>
-                            </button>
-                            <div class="mdl-tooltip" for="add-new-task">
-                              Add another task
+                            <div class="button-container">
+                              <button id="remove-task" onclick="removeTask()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">close</i>
+                              </button>
+                              <div class="mdl-tooltip" for="remove-task">
+                                Remove a task
+                              </div>
+                              <button id="add-new-task" onclick="appendTask()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">add</i>
+                              </button>
+                              <div class="mdl-tooltip" for="add-new-task">
+                                Add another task
+                              </div>
                             </div>
                           </form>
                         </div>
@@ -117,11 +133,19 @@
                               <form-input options='{"label": "Driver", "prefix": "$", "placeholder": "10.00", "suffix": "per hour", "type": "number"}'></form-input>
                               <form-input options='{"label": "Packer", "prefix": "$", "placeholder": "10.00", "suffix": "per hour", "type": "number"}'></form-input>
                             </div>
-                            <button id="add-new-worker" onclick="appendWorker()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                              <i class="material-icons">add</i>
-                            </button>
-                            <div class="mdl-tooltip" for="add-new-worker">
-                              Add another worker
+                            <div class="button-container">
+                              <button id="remove-worker" onclick="removeWorker()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">close</i>
+                              </button>
+                              <div class="mdl-tooltip" for="remove-worker">
+                                Remove a worker
+                              </div>
+                              <button id="add-new-worker" onclick="appendWorker()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">add</i>
+                              </button>
+                              <div class="mdl-tooltip" for="add-new-worker">
+                                Add another worker
+                              </div>
                             </div>
                           </form>
                         </div>
@@ -160,11 +184,19 @@
                               <form-input options='{"label": "Delivery-Fee", "prefix": "$", "placeholder": "5.00", "type": "number"}'></form-input>
                               <form-input options='{"label": "Parking-Fee", "prefix": "$", "placeholder": "5.00", "type": "number"}'></form-input>
                             </div>
-                            <button id="add-new-expense" onclick="appendExpense()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
-                              <i class="material-icons">add</i>
-                            </button>
-                            <div class="mdl-tooltip" for="add-new-expense">
-                              Add another expense
+                            <div class="button-container">
+                              <button id="remove-expense" onclick="removeExpense()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">close</i>
+                              </button>
+                              <div class="mdl-tooltip" for="remove-expense">
+                                Remove an expense
+                              </div>
+                              <button id="add-new-expense" onclick="appendExpense()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">add</i>
+                              </button>
+                              <div class="mdl-tooltip" for="add-new-expense">
+                                Add another expense
+                              </div>
                             </div>
                           </form> 
                         </div>

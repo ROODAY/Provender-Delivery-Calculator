@@ -284,3 +284,10 @@ google-chart {
 html /deep/ paper-toast {
   z-index: 99999999;
 }
+.button-container {
+  display: inline-block;
+}
+.button-container>* {
+  display: block;
+  margin-top: 3px;
+}

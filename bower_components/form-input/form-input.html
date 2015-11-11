@@ -22,12 +22,16 @@ Example:
 <dom-module id="form-input">
 
   <template>
+    <style scoped>
+      [contenteditable="true"] { padding: 5px; outline: 2px dashed #CCC; }
+      [contenteditable="true"]:hover { outline: 2px dashed #2A0338; }
+    </style>
     <template is="dom-if" if="{{options.placeholder}}">
       <paper-input-container auto-validate always-float-label error="test">
         <template is="dom-if" if="{{options.prefix}}">
           <div prefix>{{options.prefix}}</div>
         </template>
-        <label>{{removeDash(options.label)}}</label>
+        <label contenteditable="true">{{removeDash(options.label)}}</label>
         <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" required placeholder="{{options.placeholder}}">
         <template is="dom-if" if="{{options.suffix}}">
           <div suffix>{{options.suffix}}</div>
@@ -40,7 +44,7 @@ Example:
         <template is="dom-if" if="{{options.prefix}}">
           <div prefix>{{options.prefix}}</div>
         </template>
-        <label>{{removeDash(options.label)}}</label>
+        <label contenteditable="true">{{removeDash(options.label)}}</label>
         <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" required>
         <template is="dom-if" if="{{options.suffix}}">
           <div suffix>{{options.suffix}}</div>
