@@ -261,8 +261,8 @@ loadGraph = function(calcs) {
         ],
     "rows": []
   };
-  var depreciation = calcs.financialMetrics.paymentPerPeriod / (365 / parseInt($("#input-payments-per-year").val()));
-  var insurance = parseInt($("#input-monthly-insurance-payment").val()) / 30;
+  var depreciation = Math.round((calcs.financialMetrics.paymentPerPeriod / (365 / parseInt($("#input-payments-per-year").val()))) * 100) / 100;
+  var insurance = Math.round((parseInt($("#input-monthly-insurance-payment").val()) / 30) * 100) / 100;
   data.rows.push({"c":[{"v":"Labor Cost","f":null},{"v":calcs.laborCost,"f":"$" + calcs.laborCost}]});
   data.rows.push({"c":[{"v":"Fuel Cost","f":null},{"v":calcs.fuelCost,"f":"$" + calcs.fuelCost}]});
   data.rows.push({"c":[{"v":"Depreciation","f":null},{"v":depreciation,"f":"$" + depreciation}]});
