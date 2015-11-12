@@ -32,7 +32,7 @@ Example:
           <div prefix>{{options.prefix}}</div>
         </template>
         <label contenteditable="true">{{removeDash(options.label)}}</label>
-        <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" required placeholder="{{options.placeholder}}">
+        <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" min="0" step="any" required placeholder="{{options.placeholder}}">
         <template is="dom-if" if="{{options.suffix}}">
           <div suffix>{{options.suffix}}</div>
         </template>
@@ -45,7 +45,7 @@ Example:
           <div prefix>{{options.prefix}}</div>
         </template>
         <label contenteditable="true">{{removeDash(options.label)}}</label>
-        <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" required>
+        <input is="iron-input" id="{{prefixInput(options.label)}}" type="{{options.type}}" min="0" step="any" required>
         <template is="dom-if" if="{{options.suffix}}">
           <div suffix>{{options.suffix}}</div>
         </template>

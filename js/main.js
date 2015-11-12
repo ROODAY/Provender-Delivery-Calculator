@@ -262,11 +262,13 @@ loadGraph = function(calcs) {
     "rows": []
   };
   var depreciation = calcs.financialMetrics.paymentPerPeriod / (365 / parseInt($("#input-payments-per-year").val()));
-  var insurance = parseInt($("#input-insurance-payment").val()) / 30;
+  var insurance = parseInt($("#input-monthly-insurance-payment").val()) / 30;
   data.rows.push({"c":[{"v":"Labor Cost","f":null},{"v":calcs.laborCost,"f":"$" + calcs.laborCost}]});
   data.rows.push({"c":[{"v":"Fuel Cost","f":null},{"v":calcs.fuelCost,"f":"$" + calcs.fuelCost}]});
   data.rows.push({"c":[{"v":"Depreciation","f":null},{"v":depreciation,"f":"$" + depreciation}]});
   data.rows.push({"c":[{"v":"Insurance","f":null},{"v":insurance,"f":"$" + insurance}]});
+
+  console.log(data.rows)
 
   var expenses = $("#expenses-inputs-container").find("input");
   var labels = $("#expenses-inputs-container").find("label");
@@ -290,7 +292,7 @@ calcMisc = function(financialMetrics) {
     totalExpenses += parseInt($(expenses[i]).val());
   }
   totalExpenses += financialMetrics.paymentPerPeriod / (365 / periods);
-  totalExpenses += parseInt($("#input-insurance-payment").val()) / 30;
+  totalExpenses += parseInt($("#input-monthly-insurance-payment").val()) / 30;
   totalExpenses = Math.round(totalExpenses * 100) / 100;
   return {
     totalExpenses: totalExpenses,
@@ -299,9 +301,11 @@ calcMisc = function(financialMetrics) {
 };
 
 calcFuelCost = function(miles) {
+  console.log("miles: " + miles)
   var mpg = parseInt($("#input-miles-per-gallon").val()),
-      price = parseInt($("#input-average-gas-price").val());
+      price = parseInt($("#input-gas-price-per-gallon").val());
 
+  console.log("mpg: " + mpg + ", price: " + price)
   return (miles / mpg) * price;
 };
 
