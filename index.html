@@ -72,13 +72,14 @@
               <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
               <div class="content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
                 <img src="img/logo.png" alt="Logo" id="logo-img">
-                <h3>Provender Distribution Calculator</h3>
-                  <h4><small>This is a distribution calculator. <br>The more info you share, the more interesting the insights.</small></h4>
                     <iron-pages selected="0" id="pages-container">
                       <div id="one" class="page">
+                      <h3 class="header-text">Distribution Calculator</h3>
+                      <h6 class="header-text">Delivering with Provender allows you to connect to local buyers quickly and efficiently. We’ve built this distribution calculator to help you better control your bottom line and control your business profits.</h6>
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="driving-stats-form" onsubmit="return false;">
                             <strong>Where are you coming from and where are you headed?</strong><br>
+                            More than two stops? Click the + to add more drops. <br>
                             <div id="driving-stats-inputs-container" class="mdl-cell mdl-cell--6-col">
                               <form-input options='{"label": "Home", "placeholder": "12 Example Street, Boston, MA", "type": "text"}'></form-input>
                               <form-input options='{"label": "Destination", "placeholder": "42 Example Road, Providence, RI", "type": "text"}'></form-input>
@@ -101,9 +102,11 @@
                         </div>
                       </div>
                       <div id="two" class="page">
+                        <h6 class="header-text">Many of our farmers deliver on days when they’re also in town for a market. If you’re planning on selling goods at market on the day of your delivery, use this step to add details around the hours of operation.</h6>
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="time-not-farming">
                             <strong>You're doing more than driving. Break down today's todo list.</strong><br>
+                            If you have other tasks for the day, click the + to add them below.<br>
                             <div id="tasks-inputs-container" class="mdl-cell mdl-cell--6-col">
                               <form-input options='{"label": "Time-At-Market", "suffix": "hour(s)", "type": "number", "placeholder": "3"}'></form-input>
                               <form-input options='{"label": "Time-Unloading", "suffix": "hour(s)", "type": "number", "placeholder": "1"}'></form-input>
@@ -126,9 +129,11 @@
                         </div>
                       </div>
                       <div id="three" class="page">
+                      <h6 class="header-text">The most costly part of any delivery day is labour. Too many farmers never count their own time in a delivery day!</h6>
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="labor-costs">
                             <strong>Who's putting in their time and what're they getting paid?</strong><br>
+                            If you have other folks in town for the day, click the + to add them below. <br>
                             <div id="labor-inputs-container" class="mdl-cell mdl-cell--6-col">
                               <form-input options='{"label": "Driver", "prefix": "$", "placeholder": "10.00", "suffix": "per hour", "type": "number"}'></form-input>
                               <form-input options='{"label": "Packer", "prefix": "$", "placeholder": "10.00", "suffix": "per hour", "type": "number"}'></form-input>
@@ -153,27 +158,28 @@
                       <div id="four" class="page">
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="vehicle-costs">
-                            <strong>What kind of wheels do you have and what does it cost to keep 'em rolling?</strong><br>
                             <div id="vehicle-inputs-container">
                               <div class="mdl-cell mdl-cell--6-col inline-block">
                                 <form-input options='{"label": "Loan-Amount", "prefix": "$", "placeholder": "30000", "type": "number"}'></form-input>
                                 <form-input options='{"label": "Term-of-Loan-in-Years", "suffix": "years", "placeholder": "5", "type": "number"}'></form-input>
                                 <form-input options='{"label": "Annual-Interest-Rate", "suffix": "%", "placeholder": "4.3", "type": "number"}'></form-input>
                                 <form-input options='{"label": "Payments-per-Year", "placeholder": "12", "suffix": "payments", "type": "number"}'></form-input>
-                              </div>
-                              <div class="mdl-cell mdl-cell--6-col inline-block">
                                 <form-input options='{"label": "Monthly-Insurance-Payment", "prefix": "$", "placeholder": "100.00", "type": "number"}'></form-input>
                                 <form-input options='{"label": "Miles-per-Gallon", "suffix": "mpg", "placeholder": "17", "type": "number"}'></form-input>
                                 <form-input options='{"label": "Gas-Price-per-Gallon", "prefix": "$", "placeholder": "2.22", "type": "number"}'></form-input>
+                              </div>
+                              <div class="mdl-cell mdl-cell--6-col inline-block">
+                                  <h6 class="header-text">Getting to the real cost of a truck on the road is important- there’s more than just gas involved. If you don’t want to get into the nitty-gritty details, just press “skip” and we’ll estimate for you.</h6>
                               </div>
                             </div>
                           </form>
                         </div>
                       </div>
                       <div id="five" class="page">
+                      <h6 class="header-text">Finally, the most important details- what you are expecting to sell, your margin, and any additional expenses (delivery and parking fees).</h6>
                         <div class="mdl-cell mdl-cell--12-col">
                           <form action="#" id="nitty-gritty">
-                            <strong>Now it's time for the nitty gritty. Count up all those $ and ¢.</strong><br>
+                            Provender doesn't retain any of the info you add here.<br>
                             <div id="profits-inputs-container" class="mdl-cell mdl-cell--5-col inline-block">
                               <h5>Profits</h5>
                               <form-input options='{"label": "Goods-Sold", "prefix": "$", "placeholder": "850.00", "type": "number"}'></form-input>
@@ -202,13 +208,56 @@
                         </div>
                       </div>
                       <div id="six" class="page">
-                        <h1>Results</h1>
+                        <h1 class="header-text">Results</h1>
                         <div class="mdl-cell mdl-cell--12-col" id="results">
-                          <p id="driving-stats"></p>
-                          <p id="time-spent"></p>
-                          <p id="costs"></p>
-                          <p id="finances"></p>
-                          <h3 id="break-even"></h3>
+                          <div>
+                            <div class="mdl-cell mdl-cell--2-col"></div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-right">Door to Door time will be</h6>
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                              <h3 class="text-center result-text" id="time-spent"></h3>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-left">hours.</h6>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="mdl-cell mdl-cell--2-col"></div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-right">You're driving</h6>
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                              <h3 class="text-center result-text" id="driving-stats"></h3>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-left"> miles. Road Warrior!</h6>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="mdl-cell mdl-cell--2-col"></div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-right">This trip will cost</h6>
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                              <h3 class="text-center result-text" id="costs"></h3>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-left">which is mostly labour <strong>(x)</strong> and fuel <strong>(y)</strong>.</h6>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="mdl-cell mdl-cell--2-col"></div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-right">To make this trip work,</h6>
+                            </div>
+                            <div class="mdl-cell mdl-cell--2-col">
+                              <h3 class="text-center result-text" id="break-even"></h3>
+                            </div>
+                            <div class="mdl-cell mdl-cell--3-col">
+                              <h6 class="text-left">should be your minimum sale amount to break even.</h6>
+                            </div>
+                          </div>
                         </div>
                         <div class="mdl-cell mdl-cell--12-col" id="google-charts-wrapper">
                           <google-chart
@@ -222,13 +271,21 @@
                         </div>
                       </div>
                     </iron-pages>
-                  <paper-button id="prevPage" raised>
-                    <iron-icon icon="chevron-left"></iron-icon>
-                    Back
-                  </paper-button>
-                  <paper-button id="nextPage" raised ontap="{{checkReset}}">
-                    Next <iron-icon icon="chevron-right"></iron-icon>
-                  </paper-button>
+                  <div id="nav-button-container">
+                    <paper-button id="prevPage" raised>
+                      <iron-icon icon="chevron-left"></iron-icon>
+                      Back
+                    </paper-button>
+                    <paper-button id="nextPage" raised ontap="{{checkReset}}">
+                      Next <iron-icon icon="chevron-right"></iron-icon>
+                    </paper-button>
+                    <paper-button id="skip" raised ontap="{{checkReset}}">
+                      Skip <iron-icon icon="chevron-right"></iron-icon>
+                    </paper-button>
+                    <div class="mdl-tooltip" for="skip">
+                      Not sure what to say? We'll take a guess!
+                    </div>
+                  </div>
               </div>
             </div>
             <paper-toast id="error-toast" text="Failed to get directions!" duration="5000">

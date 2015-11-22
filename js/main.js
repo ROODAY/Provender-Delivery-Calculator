@@ -37,6 +37,110 @@ $(document).ready(function(){
     e.preventDefault();
   });
 
+  $("#skip").click(function(){
+    $destinationfields = $("#driving-stats-form input[id^='input']");
+    $expensefields = $("#nitty-gritty input[id^='input']");
+    $laborfields = $("#labor-costs input[id^='input']");
+    $taskfields = $("#time-not-farming input[id^='input']");
+    $loanfields = $("#vehicle-costs input[id^='input']");
+    if (currentPage === 1) {
+      for (var i = 0; i < $taskfields.length; i++) {
+        $($taskfields[i]).val(0)
+      }
+    } else if (currentPage === 2) {
+      for (var i = 0; i < $laborfields.length; i++) {
+        $($laborfields[i]).val(12)
+      }
+    } else if (currentPage === 3) {
+      for (var i = 0; i < $loanfields.length; i++) {
+        $($loanfields[i]).val(0)
+      }
+    }
+    $(pages[currentPage]).removeClass('iron-selected');
+    if (currentPage + 1 < pages.length) {
+      if (currentPage === 0) {
+        $emptydestinationFields = $destinationfields.filter(function() {
+            return $.trim(this.value) === "";
+        });
+        if (!$emptydestinationFields.length) {
+            currentPage += 1;
+        } else {
+          $("#error-toast").attr("text", "Uh-oh! Looks like you didn't fill out all the fields on this page!");
+          $("#error-toast>span.retry").addClass("hidden");
+          document.querySelector('#error-toast').show();
+        }
+      } else if (currentPage === 1) {
+        $emptytaskfields = $taskfields.filter(function() {
+            return $.trim(this.value) === "";
+        });
+        if (!$emptytaskfields.length) {
+            currentPage += 1;
+        } else {
+          $("#error-toast").attr("text", "Uh-oh! Looks like you didn't fill out all the fields on this page!");
+          $("#error-toast>span.retry").addClass("hidden");
+          document.querySelector('#error-toast').show();
+        }
+      } else if (currentPage === 2) {
+        $emptylaborFields = $laborfields.filter(function() {
+            return $.trim(this.value) === "";
+        });
+        if (!$emptylaborFields.length) {
+            currentPage += 1;
+        } else {
+          $("#error-toast").attr("text", "Uh-oh! Looks like you didn't fill out all the fields on this page!");
+          $("#error-toast>span.retry").addClass("hidden");
+          document.querySelector('#error-toast').show();
+        }
+      } else if (currentPage === 3) {
+        $emptyloanFields = $loanfields.filter(function() {
+            return $.trim(this.value) === "";
+        });
+        if (!$emptyloanFields.length) {
+            currentPage += 1;
+        } else {
+          $("#error-toast").attr("text", "Uh-oh! Looks like you didn't fill out all the fields on this page!");
+          $("#error-toast>span.retry").addClass("hidden");
+          document.querySelector('#error-toast').show();
+        }
+      } else if (currentPage === 4) {
+        $emptyexpenseFields = $expensefields.filter(function() {
+            return $.trim(this.value) === "";
+        });
+        if (!$emptyexpenseFields.length) {
+            currentPage += 1;
+            $("#loading").css("margin-top", "0");
+        } else {
+          $("#error-toast").attr("text", "Uh-oh! Looks like you didn't fill out all the fields on this page!");
+          $("#error-toast>span.retry").addClass("hidden");
+          document.querySelector('#error-toast').show();
+        }
+      } else {
+        currentPage += 1;
+      }
+    } else {
+      currentPage = 0;
+      reset();
+    }
+    $(pages[currentPage]).addClass('iron-selected');
+    if (currentPage === 0) {
+      $("#prevPage").css("display", "none");
+    } else {
+      $("#prevPage").css("display", "inline-block");
+    }
+    if (currentPage === 0 || currentPage === 4 || currentPage === 5) {
+      $("#skip").css("display", "none");
+    } else {
+      $("#skip").css("display", "inline-block");
+    }
+    if (currentPage === 5) {
+      calcDrivingStats();
+      $("#nextPage>paper-material").html("Restart <iron-icon icon=\"chevron-right\"></iron-icon>");
+      $("#nextPage>paper-material").css("background-color", "#eeff41");
+    } else {
+      $("#nextPage>paper-material").html("Next <iron-icon icon=\"chevron-right\"></iron-icon>");
+      $("#nextPage>paper-material").css("background-color", "#fff");
+    }
+  });
   $("#prevPage").click(function(){
     $(pages[currentPage]).removeClass('iron-selected');
     if (currentPage - 1 >= 0) {
@@ -49,6 +153,11 @@ $(document).ready(function(){
       $("#prevPage").css("display", "none");
     } else {
       $("#prevPage").css("display", "inline-block");
+    }
+    if (currentPage === 0 || currentPage === 4 || currentPage === 5) {
+      $("#skip").css("display", "none");
+    } else {
+      $("#skip").css("display", "inline-block");
     }
     if (currentPage === 5) {
       $("#nextPage>paper-material").html("Restart <iron-icon icon=\"chevron-right\"></iron-icon>");
@@ -135,6 +244,11 @@ $(document).ready(function(){
       $("#prevPage").css("display", "none");
     } else {
       $("#prevPage").css("display", "inline-block");
+    }
+    if (currentPage === 0 || currentPage === 4 || currentPage === 5) {
+      $("#skip").css("display", "none");
+    } else {
+      $("#skip").css("display", "inline-block");
     }
     if (currentPage === 5) {
       calcDrivingStats();
@@ -241,11 +355,11 @@ runCalculations = function(res) {
   var totalTime = (Math.round((calcs.taskTime + (calcs.drivingStats[1].value / 60 / 60)) * 10) / 10);
   var costOfDistribution = Math.round((calcs.laborCost + calcs.fuelCost + calcs.misc.totalExpenses) * 100) / 100;
   var breakEven = Math.round((costOfDistribution / (parseInt($("#input-profit-margin").val()) / 100)) * 100) / 100;
-  $("#driving-stats").html("Your trip would cover about <b>" + numberWithCommas(Math.round(calcs.drivingStats[0].value / 1609.34)) + " miles</b> and take about <b>" + calcs.drivingStats[1].text + "</b>.");
+  $("#driving-stats").html(numberWithCommas(Math.round(calcs.drivingStats[0].value / 1609.34)));
   var sittingTime = Math.round(((calcs.drivingStats[1].value / 60 / 60) / totalTime) * 100);
-  $("#time-spent").html("You would spend a total of <b>" + numberWithCommas(totalTime) + " hours</b>. <b>" + numberWithCommas(sittingTime) + "%</b> sitting and <b>" + (100 - sittingTime) + "%</b> standing.");
-  $("#costs").html("It would cost <b>$" + numberWithCommas(costOfDistribution) + "</b>, <b>$" + numberWithCommas(Math.round(calcs.laborCost * 100) / 100) + "</b> on labor, <b>$" + numberWithCommas(Math.round(calcs.fuelCost * 100) / 100) + "</b> on fuel, and <b>$" + numberWithCommas(Math.round(calcs.misc.totalExpenses * 100) / 100) + "</b> on other expenses.");
-  $("#break-even").html("You would need to sell <b>$" + numberWithCommas(breakEven) + "</b> to break even.");
+  $("#time-spent").html(numberWithCommas(totalTime));
+  $("#costs").html("$" + numberWithCommas(costOfDistribution));
+  $("#break-even").html("$" + numberWithCommas(breakEven));
   map = new google.maps.Map(document.getElementById("google-map"));
   directionsDisplay.setMap(map);
   directionsDisplay.setDirections(res);
