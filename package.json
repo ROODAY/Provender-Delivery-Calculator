@@ -1,8 +1,9 @@
 {
-  "name": "provender-delivery-calculator",
-  "version": "3.0.0",
+  "name": "provender-distribution-calculator",
+  "version": "3.0.1",
   "description": "Calculate everything you'll need to know about your next delivery with Provender!",
   "dependencies": {
-    "express": "^4.9.4"
+    "express": "^4.9.4",
+    "pg": "^4.4.3"
   }
 }

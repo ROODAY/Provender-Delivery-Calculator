@@ -1,2 +1,3 @@
-# Provender-Delivery-Calculator
-Standalone HTML5 Web App for delivery calculations
+# Provender Distribution Calculator
+
+Provender webapp to calculate all costs involved in a delivery. Made with Google Polymer.

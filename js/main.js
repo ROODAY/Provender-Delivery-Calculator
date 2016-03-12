@@ -352,8 +352,19 @@ runCalculations = function(res) {
     misc: calcMisc(calcDepreciation())
   };
   console.log(calcs);
+  var driverExists = false;
+  var driver;
+  for (var i = 0; i < $laborfields.length; i++) {
+    if($laborfields[i].id.toLowerCase().replace("input-", "") === "driver") {
+      driverExists = true;
+      driver = $laborfields[i];
+    }
+  }
+  if (driverExists) {
+    calcs.driverCost = Math.round(((calcs.drivingStats[1].value / 60 / 60) * parseInt($(driver).val())) * 100) / 100;
+  }
   var totalTime = (Math.round((calcs.taskTime + (calcs.drivingStats[1].value / 60 / 60)) * 10) / 10);
-  var costOfDistribution = Math.round((calcs.laborCost + calcs.fuelCost + calcs.misc.totalExpenses) * 100) / 100;
+  var costOfDistribution = Math.round((calcs.driverCost + calcs.laborCost + calcs.fuelCost + calcs.misc.totalExpenses) * 100) / 100;
   var breakEven = Math.round((costOfDistribution / (parseInt($("#input-profit-margin").val()) / 100)) * 100) / 100;
   $("#driving-stats").html(numberWithCommas(Math.round(calcs.drivingStats[0].value / 1609.34)));
   var sittingTime = Math.round(((calcs.drivingStats[1].value / 60 / 60) / totalTime) * 100);
@@ -466,6 +477,15 @@ calcTaskTime = function() {
 
 calcLaborCosts = function(hours) {
   var wages = $("#labor-inputs-container").find("input");
+  /*var drivers = [];
+  for (var i = 0; i < wages.length; i++) {
+    if(wages[i].id.toLowerCase().replace("input-", "") === "driver") {
+      drivers.push(i)
+    }
+  }
+  for (var i = 0; i < drivers.length; i++) {
+    wages.splice(drivers[i], 1);
+  }*/
   var totalLaborCost = 0;
   for (var i = 0; i < wages.length; i++) {
     totalLaborCost += parseInt($(wages[i]).val()) * hours;
